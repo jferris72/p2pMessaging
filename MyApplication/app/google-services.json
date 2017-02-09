@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "21611894525",
+    "firebase_url": "https://p2pmessaging-43e1a.firebaseio.com",
+    "project_id": "p2pmessaging-43e1a",
+    "storage_bucket": "p2pmessaging-43e1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21611894525:android:b0a3c7a59f26f6c7",
+        "android_client_info": {
+          "package_name": "com.example.jferris.p2pmessaging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21611894525-lns1lh4n095b02t1tvqje47lifslo1d4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCCy2xm-abxza9R71ymLBOiSl3wf5ldZQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21611894525-lns1lh4n095b02t1tvqje47lifslo1d4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
