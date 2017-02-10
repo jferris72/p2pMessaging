@@ -8,10 +8,11 @@ import java.util.UUID;
 
 public class User {
     private String name;
-    private UUID uuid;
+    private String uuid;
 
-    public User (String name) {
+    public User (String name, String UUID) {
         this.name = name;
+        this.uuid = UUID;
     }
 
     public String getName() {
@@ -22,11 +23,11 @@ public class User {
         this.name = name;
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 }

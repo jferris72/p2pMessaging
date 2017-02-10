@@ -1,5 +1,6 @@
 package com.example.jferris.p2pmessaging;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -10,10 +11,17 @@ import java.util.UUID;
 public class Message {
     private String message;
     private UUID uuid;
+    private Boolean isRead;
+    private Date date;
+    private static final int DIRECTION_INCOMING = 0;
+    private static final int DIRECTION_OUTGOING = 1;
+    private int direction;
 
     public Message(String message, UUID uuid) {
         this.message = message;
         this.uuid = uuid;
+        this.isRead = false;
+        this.date = new Date();
     }
 
     public String getMessage() {
@@ -30,5 +38,29 @@ public class Message {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 }
