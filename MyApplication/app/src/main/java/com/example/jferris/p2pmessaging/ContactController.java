@@ -52,4 +52,23 @@ public class ContactController {
         });
     }
 
+    public void addById(String contact) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("user").child(contact).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot != null) {
+                    User contact = snapshot.getValue(User.class);
+                    contacts.add(contact);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        });
+
+    }
 }

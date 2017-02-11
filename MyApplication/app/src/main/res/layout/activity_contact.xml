@@ -11,8 +11,27 @@
     tools:context="com.example.jferris.p2pmessaging.ContactActivity">
 
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@id/contactText">
     </ListView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/contactButton"
+        android:id="@+id/contactText"
+        android:background="@color/colorAccent"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Add Contact"
+        android:id="@+id/contactButton"
+        />
 
 </RelativeLayout>
