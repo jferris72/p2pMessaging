@@ -18,6 +18,7 @@ public class ContactController {
 
 
     public ContactController() {
+        contacts = new ArrayList<User>();
     }
 
     public ArrayList<User> getContacts() {
@@ -29,7 +30,7 @@ public class ContactController {
     }
 
     public void addContact(User contact) {
-        mDatabase.child("contact").child(UserController.getCurrentUser().getUuid()).setValue(contact);
+        //mDatabase.child("contact").child(UserController.getCurrentUser().getUuid()).setValue(contact);
         contacts.add(contact);
     }
 
@@ -39,7 +40,7 @@ public class ContactController {
         mDatabase.child("contact").child(UserController.getCurrentUser().getUuid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.hasChild(UserController.getCurrentUser().getUuid())) {
+                if (snapshot.getValue() != null) {
                     User contact = snapshot.getValue(User.class);
                     contacts.add(contact);
                 }
@@ -58,9 +59,13 @@ public class ContactController {
         mDatabase.child("user").child(contact).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot != null) {
-                    User contact = snapshot.getValue(User.class);
-                    contacts.add(contact);
+                if (snapshot.getValue() != null) {
+                    User user = null;
+                    user = snapshot.getValue(User.class);
+                    if(user != null) {
+                        contacts.add(user);
+                        mDatabase.child("contact").child(UserController.getCurrentUser().getUuid()).setValue(user);
+                    }
                 }
             }
 

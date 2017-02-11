@@ -10,21 +10,23 @@ import java.util.UUID;
 
 public class Message {
     private String message;
-    private UUID uuid;
+//    private UUID uuid;
     private Boolean isRead;
     private Date date;
-    private String from;
-    private String to;
-    private static final int DIRECTION_INCOMING = 0;
-    private static final int DIRECTION_OUTGOING = 1;
-    private int direction;
+//    private String from;
+//    private String to;
+//    private static final int DIRECTION_INCOMING = 0;
+//    private static final int DIRECTION_OUTGOING = 1;
+//    private int direction;
 
-    public Message(String message, UUID uuid) {
+    public Message(String message) {
         this.message = message;
-        this.uuid = uuid;
+//        this.uuid = uuid;
         this.isRead = false;
         this.date = new Date();
     }
+
+    public Message() {}
 
     public String getMessage() {
         return message;
@@ -34,13 +36,13 @@ public class Message {
         this.message = message;
     }
 
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
+//    public UUID getUuid() {
+//        return uuid;
+//    }
+//
+//    public void setUuid(UUID uuid) {
+//        this.uuid = uuid;
+//    }
 
     public Boolean getRead() {
         return isRead;
@@ -57,28 +59,28 @@ public class Message {
     public void setDate(Date date) {
         this.date = date;
     }
-
-    public int getDirection() {
-        return direction;
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
+//
+//    public int getDirection() {
+//        return direction;
+//    }
+//
+//    public void setDirection(int direction) {
+//        this.direction = direction;
+//    }
+//
+//    public String getFrom() {
+//        return from;
+//    }
+//
+//    public void setFrom(String from) {
+//        this.from = from;
+//    }
+//
+//    public String getTo() {
+//        return to;
+//    }
+//
+//    public void setTo(String to) {
+//        this.to = to;
+//    }
 }

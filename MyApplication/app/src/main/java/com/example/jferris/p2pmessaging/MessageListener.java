@@ -14,11 +14,13 @@ public class MessageListener implements ChildEventListener {
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         //Receive message
+
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        //Edit message
+        //Message edited, probably is read
+
     }
 
     @Override

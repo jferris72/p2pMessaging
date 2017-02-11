@@ -20,7 +20,8 @@
             android:label="@string/title_activity_messaging"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ContactActivity"></activity>
+        <activity android:name=".ContactActivity" />
+        <activity android:name=".AddContactActivity"></activity>
     </application>
 
 </manifest>

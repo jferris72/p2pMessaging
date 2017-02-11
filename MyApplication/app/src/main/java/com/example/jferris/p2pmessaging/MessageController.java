@@ -21,6 +21,8 @@ public class MessageController {
     private static MessageController instance = null;
     private DatabaseReference mDatabase;
     private ArrayList<File> fileList;
+    private static ArrayList<Message> messageList= new ArrayList<Message>();
+    private UUID messageID;
     protected MessageController () {
         //Used to create one shared instance of message controller
     }
@@ -35,20 +37,20 @@ public class MessageController {
 //    public MessageController() {}
 
     /**
-     * Sends a message to firebase
-     * @param message
-     * @param user
+     *
+     * @param body
+     * @param from
+     * @param to
      */
-    public void sendMessage(Message message, UUID user) {
+    public void sendMessage(String body, String from, String to) {
 
-        if (message == null || user == null) {
+        if (body == null || from == null || to == null) {
             return;
         }
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        UUID messageID = UUID.randomUUID();
-        message = new Message("placeholder string", messageID);
-        mDatabase.child("message").child(user.toString()).child(messageID.toString()).setValue(message);
+        Message message = new Message(body);
+        messageID = UUID.randomUUID();
+        mDatabase.child("message").child(from).child(to).child(messageID.toString()).setValue(message);
     }
 
     public Message receiveMessages(UUID user) {

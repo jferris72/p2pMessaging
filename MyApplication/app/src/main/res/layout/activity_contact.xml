@@ -10,11 +10,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.jferris.p2pmessaging.ContactActivity">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_above="@id/contactText">
-    </ListView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Add Contact"
+        android:id="@+id/contactButton"
+        />
 
     <EditText
         android:layout_width="match_parent"
@@ -24,14 +27,18 @@
         android:background="@color/colorAccent"
         android:textColor="#000000"
         android:textSize="30dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Add Contact"
-        android:id="@+id/contactButton"
-        />
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@id/contactText"
+        android:id="@+id/contactList"
+        android:choiceMode="multipleChoice"
+        >
+    </ListView>
+
 
 </RelativeLayout>
