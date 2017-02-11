@@ -13,6 +13,8 @@ public class Message {
     private UUID uuid;
     private Boolean isRead;
     private Date date;
+    private String from;
+    private String to;
     private static final int DIRECTION_INCOMING = 0;
     private static final int DIRECTION_OUTGOING = 1;
     private int direction;
@@ -62,5 +64,21 @@ public class Message {
 
     public void setDirection(int direction) {
         this.direction = direction;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 }
