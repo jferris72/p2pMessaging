@@ -8,22 +8,24 @@ import java.util.UUID;
  * Object for storing message string, connected to users UUID
  */
 
-public class Message {
+public class Message implements Comparable<Message> {
     private String message;
 //    private UUID uuid;
     private Boolean isRead;
     private Date date;
-//    private String from;
-//    private String to;
+    private String from;
+    private String to;
 //    private static final int DIRECTION_INCOMING = 0;
 //    private static final int DIRECTION_OUTGOING = 1;
 //    private int direction;
 
-    public Message(String message) {
+    public Message(String message, String to, String from) {
         this.message = message;
 //        this.uuid = uuid;
         this.isRead = false;
         this.date = new Date();
+        this.to = to;
+        this.from = from;
     }
 
     public Message() {}
@@ -68,19 +70,24 @@ public class Message {
 //        this.direction = direction;
 //    }
 //
-//    public String getFrom() {
-//        return from;
-//    }
-//
-//    public void setFrom(String from) {
-//        this.from = from;
-//    }
-//
-//    public String getTo() {
-//        return to;
-//    }
-//
-//    public void setTo(String to) {
-//        this.to = to;
-//    }
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    @Override
+    public int compareTo(Message o) {
+        return getDate().compareTo(o.getDate());
+    }
 }

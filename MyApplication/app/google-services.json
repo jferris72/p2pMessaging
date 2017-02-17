@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "21611894525-nq65sbiqb5fhkbcq4jpk73ijh6r1r1u8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jferris.p2pmessaging",
+            "certificate_hash": "A12770F9182624C5C90B87B7EBAC9A4B954E6EE7"
+          }
+        },
+        {
           "client_id": "21611894525-lns1lh4n095b02t1tvqje47lifslo1d4.apps.googleusercontent.com",
           "client_type": 3
         }

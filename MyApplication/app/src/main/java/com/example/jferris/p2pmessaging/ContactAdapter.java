@@ -19,6 +19,7 @@ public class ContactAdapter extends ArrayAdapter<User> {
 
     private Context context;
     private ArrayList<User> contacts = new ArrayList<>();
+    private ContactController contactController;
 
 
     public ContactAdapter(Context context, ArrayList<User> contacts) {
@@ -29,18 +30,21 @@ public class ContactAdapter extends ArrayAdapter<User> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
-        //show message on left or right, depending on if
-        //it's incoming or outgoing
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.contact_list_item, viewGroup, false);
         }
-        TextView contact = (TextView) convertView.findViewById(R.id.contact);
+        TextView contactName = (TextView) convertView.findViewById(R.id.contactName);
+        TextView contactEmail = (TextView) convertView.findViewById(R.id.contactEmail);
 
-        contact.setText(contacts.get(position).getName());
+        contactName.setText(contacts.get(position).getName());
+        contactEmail.setText(contacts.get(position).getEmail());
 
-//        messageButton.setOnClickListener(new View.OnClickListener() {
+//        Button addContactButton = (Button) convertView.findViewById(R.id.addButton);
+//
+//        addContactButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
+//                contactController.addById(contacts.get(position).getUuid());
 //            }
 //        });
 

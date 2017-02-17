@@ -1,6 +1,7 @@
 package com.example.jferris.p2pmessaging;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -12,13 +13,14 @@ import java.util.ArrayList;
 
 /**
  * Created by jferris on 09/02/17.
+ * Controls user data
  */
 
 public class UserController {
     private static UserController instance = null;
     private static User currentUser = null;
     private static DatabaseReference mDatabase;
-    private static ArrayList<User> contacts;
+    private static ArrayList<User> users = new ArrayList<>();
 
 
     protected UserController() {
@@ -44,21 +46,13 @@ public class UserController {
         return true;
     }
 
-    public static ArrayList<User> getContacts() {
-        return contacts;
-    }
-
-    public static void setContacts(ArrayList<User> contacts) {
-        UserController.contacts = contacts;
-    }
-
     /**
      * Create user, add to database if not in it already
      * @param name
      * @param uuid
      */
-    public static void createUser(String name, String uuid) {
-        currentUser = new User(name, uuid);
+    public static void createUser(String name, String uuid, String email) {
+        currentUser = new User(name, uuid, email);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mDatabase.child("user").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -71,8 +65,36 @@ public class UserController {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
             }
         });
+    }
+
+    /**
+     * Gets all the users from the database and stores them in an array
+     * @return
+     */
+
+    public static ArrayList<User> getUsers() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("user").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                try {
+                    users.clear();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        User user = child.getValue(User.class);
+                        users.add(user);
+                    }
+                } catch(Exception e) {
+                    Log.i("getUsersException:", e.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        return users;
     }
 }

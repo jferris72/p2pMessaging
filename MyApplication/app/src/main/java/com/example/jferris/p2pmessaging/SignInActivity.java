@@ -75,7 +75,7 @@ public class SignInActivity extends AppCompatActivity implements
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            UserController.createUser(acct.getDisplayName(), acct.getId());
+            UserController.createUser(acct.getDisplayName(), acct.getId(), acct.getEmail());
             Intent intent = new Intent(SignInActivity.this, ContactActivity.class);
             startActivity(intent);
 

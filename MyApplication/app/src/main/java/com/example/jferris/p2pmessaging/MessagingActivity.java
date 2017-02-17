@@ -14,6 +14,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import static android.R.id.message;
+
 public class MessagingActivity extends Activity {
     MessageAdapter messageAdapter;
     TextView contactName;
@@ -22,7 +26,6 @@ public class MessagingActivity extends Activity {
     Button submitButton;
     MessageController messageController = MessageController.getInstance();
     String contactUUID;
-    User contact;
     String messageBody = null;
 
 
@@ -46,9 +49,10 @@ public class MessagingActivity extends Activity {
         } else {
             contactUUID = (String) savedInstanceState.getSerializable("user");
         }
-
-
-
+        messageAdapter = new MessageAdapter(this, MessageController.getMessageList());
+        MessageController.getMessages(contactUUID, UserController.getCurrentUser().getUuid(), messageAdapter);
+        MessageController.getMessages(UserController.getCurrentUser().getUuid(), contactUUID, messageAdapter);
+        messageList.setAdapter(messageAdapter);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +66,13 @@ public class MessagingActivity extends Activity {
         });
 
         contactName.setText(UserController.getCurrentUser().getName()); //TO DO
+    }
+
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        messageAdapter.notifyDataSetChanged();
     }
 
 }

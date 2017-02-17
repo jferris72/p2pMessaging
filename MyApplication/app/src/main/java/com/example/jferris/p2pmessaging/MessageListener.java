@@ -9,12 +9,22 @@ import com.google.firebase.database.DatabaseError;
  */
 
 public class MessageListener implements ChildEventListener {
+    private MessageAdapter adapter;
 
+    public MessageListener (MessageAdapter adapter) {
+        this.adapter = adapter;
+    }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         //Receive message
-
+        try {
+            for(DataSnapshot child: dataSnapshot.getChildren()) {
+                adapter.add(child.getValue(Message.class));
+            }
+        } catch(Exception e) {
+            //do nothing
+        }
     }
 
     @Override

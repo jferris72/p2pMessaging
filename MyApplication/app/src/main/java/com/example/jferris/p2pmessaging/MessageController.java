@@ -1,10 +1,13 @@
 package com.example.jferris.p2pmessaging;
 
+import android.util.Log;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,10 +22,11 @@ import java.util.UUID;
 
 public class MessageController {
     private static MessageController instance = null;
-    private DatabaseReference mDatabase;
     private ArrayList<File> fileList;
     private static ArrayList<Message> messageList= new ArrayList<Message>();
     private UUID messageID;
+    private static DatabaseReference mDatabase;
+
     protected MessageController () {
         //Used to create one shared instance of message controller
     }
@@ -48,7 +52,7 @@ public class MessageController {
             return;
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Message message = new Message(body);
+        Message message = new Message(body, to, from);
         messageID = UUID.randomUUID();
         mDatabase.child("message").child(from).child(to).child(messageID.toString()).setValue(message);
     }
@@ -104,4 +108,42 @@ public class MessageController {
     public void addToFile(Message message) {
 
     }
+
+    public static void getMessages(String toUUID, String fromUUID, final MessageAdapter messageAdapter) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("message").child(fromUUID).child(toUUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                try {
+                    messageList.clear();
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Message message = child.getValue(Message.class);
+                        messageList.add(message);
+                    }
+                    messageAdapter.notifyDataSetChanged();
+                    Collections.sort(messageList);
+                } catch(Exception e) {
+                    Log.i("getMessagesException:", e.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    public static ArrayList<Message> getMessageList() {
+        return messageList;
+    }
+
+    public static void setMessageList(ArrayList<Message> messageList) {
+        MessageController.messageList = messageList;
+    }
+
+    public static void sortMessageList() {
+
+    }
+
 }

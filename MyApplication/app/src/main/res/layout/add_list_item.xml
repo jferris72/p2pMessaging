@@ -3,28 +3,31 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:id="@+id/addButton"-->
-        <!--/>-->
-
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/contactName"
-        android:textSize="20dp"
-        android:textColor="#000000"
+        android:layout_alignParentStart="true"
+        android:id="@+id/addButton"
+        android:text="add"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contactEmail"
+        android:id="@+id/addName"
         android:textSize="20dp"
         android:textColor="#000000"
-        android:layout_below="@id/contactName"
+        android:layout_toRightOf="@id/addButton"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addEmail"
+        android:textSize="20dp"
+        android:textColor="#000000"
+        android:layout_below="@id/addName"
+        android:layout_toRightOf="@id/addButton"
         />
 
 

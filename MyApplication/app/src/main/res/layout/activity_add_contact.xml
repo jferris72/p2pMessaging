@@ -17,6 +17,8 @@
         android:layout_alignParentBottom="true"
         android:text="Search"
         android:id="@+id/searchButton"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         />
 
     <EditText
@@ -31,11 +33,22 @@
         android:focusableInTouchMode="true"
         />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Contacts"
+        android:layout_alignParentTop="true"
+        android:id="@+id/addTitle"
+        />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_above="@id/searchText"
+        android:layout_below="@id/addTitle"
         android:id="@+id/addList"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         >
     </ListView>
 

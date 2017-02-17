@@ -1,6 +1,7 @@
 package com.example.jferris.p2pmessaging;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -42,12 +43,17 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         //it's incoming or outgoing
         if (convertView == null) {
             int res = 0;
-            if (direction == DIRECTION_INCOMING) {
-                res = R.layout.message_right;
-            } else if (direction == DIRECTION_OUTGOING) {
+            if (messageList.get(position).getTo().equals(UserController.getCurrentUser())) {
                 res = R.layout.message_left;
+            } else {
+                res = R.layout.message_right;
             }
+            convertView = LayoutInflater.from(getContext()).inflate(res, viewGroup, false);
         }
+
+        TextView body = (TextView) convertView.findViewById(R.id.messageBody);
+        body.setText(messageList.get(position).getMessage());
+
         return convertView;
     }
 }

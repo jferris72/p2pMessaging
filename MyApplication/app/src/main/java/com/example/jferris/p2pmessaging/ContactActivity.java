@@ -24,49 +24,26 @@ public class ContactActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
 
-        contactController = new ContactController();
+        contactController = ContactController.getInstance();
         contactList = (ListView) findViewById(R.id.contactList);
-        contactController.fillContacts();
         contactAdapter = new ContactAdapter(this, contactController.getContacts());
         contactList.setAdapter(contactAdapter);
 
 
         contactButton = (Button) findViewById(R.id.contactButton);
-        contactText = (EditText) findViewById(R.id.contactText);
+//        contactText = (EditText) findViewById(R.id.contactText);
 
         contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String contact = contactText.getText().toString();
-                int check = 0; //if 1 already contact
-                for (User user: contactController.getContacts()) {
-                    if (user.getName().equals(contact)) {
-
-                    }
-                    if(user.getUuid().equals(contact)) {
-                        check = 1;
-                        Toast.makeText(ContactActivity.this, "Already a contact", Toast.LENGTH_SHORT).show();
-                    }
-                    if (check == 0){
-                        contactController.addById(contact);
-                        contactAdapter.notifyDataSetChanged();
-                    }
-                }
+                Intent intent = new Intent(ContactActivity.this,AddContactActivity.class);
+                startActivity(intent);
             }
         });
 
         contactList.setEnabled(true);
         contactList.setOnItemClickListener(new ContactClickHandler());
 
-//        contactList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Intent intent = new Intent(ContactActivity.this, MessagingActivity.class);
-//                String uuid = contactAdapter.getContacts().get(position).getUuid();
-//                intent.putExtra("user", uuid);
-//                startActivity(intent);
-//            }
-//        });
 
     }
 
@@ -74,6 +51,7 @@ public class ContactActivity extends Activity {
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
+        contactController.fillContacts(contactAdapter);
 
     }
 
