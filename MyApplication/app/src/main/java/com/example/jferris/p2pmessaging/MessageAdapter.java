@@ -38,18 +38,23 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
-        int direction = 1;
         //show message on left or right, depending on if
         //it's incoming or outgoing
-        if (convertView == null) {
-            int res = 0;
-            if (messageList.get(position).getTo().equals(UserController.getCurrentUser())) {
-                res = R.layout.message_left;
-            } else {
-                res = R.layout.message_right;
+        int res = 0;
+        Message currMessage = messageList.get(position);
+        if (currMessage.getTo().equals(UserController.getCurrentUser().getUuid())) {
+            res = R.layout.message_left;
+            if(!currMessage.isRead()) {
+                currMessage.setRead(true);
+                MessageController.getDatabaseReference().child("message").child(currMessage.getFrom())
+                        .child(currMessage.getTo()).child(currMessage.getUuid()).setValue(currMessage);
             }
-            convertView = LayoutInflater.from(getContext()).inflate(res, viewGroup, false);
+        } else {
+            res = R.layout.message_right;
         }
+//        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(res, viewGroup, false);
+//        }
 
         TextView body = (TextView) convertView.findViewById(R.id.messageBody);
         body.setText(messageList.get(position).getMessage());

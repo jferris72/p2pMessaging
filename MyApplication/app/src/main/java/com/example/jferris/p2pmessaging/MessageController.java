@@ -1,5 +1,6 @@
 package com.example.jferris.p2pmessaging;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -38,6 +39,10 @@ public class MessageController {
         return instance;
     }
 
+    public static DatabaseReference getDatabaseReference() {
+        return mDatabase;
+    }
+
 //    public MessageController() {}
 
     /**
@@ -52,48 +57,45 @@ public class MessageController {
             return;
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Message message = new Message(body, to, from);
         messageID = UUID.randomUUID();
+        Message message = new Message(body, to, from, messageID.toString());
         mDatabase.child("message").child(from).child(to).child(messageID.toString()).setValue(message);
     }
 
-    public Message receiveMessages(UUID user) {
-        Message message = null;
+    public static void receiveMessages(final String toUUID, final String fromUUID, final MessageAdapter messageAdapter) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        messageList.clear();
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-
-                // A new comment has been added, add it to the displayed list
-
-                // ...
+                Message newMessage = dataSnapshot.getValue(Message.class);
+                messageList.add(newMessage);
+                Collections.sort(messageList);
+                if(messageAdapter != null) {
+                    messageAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
 
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-
-                // ...
+                Message newMessage = dataSnapshot.getValue(Message.class);
+                for(int i = 0; i < messageList.size(); i++) {
+                    if(messageList.get(i).getUuid().equals(newMessage.getUuid())) {
+                        messageList.set(i, newMessage);
+                    }
+                }
+                messageAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
-
-
-                // ...
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
 
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
-
-                // ...
             }
 
             @Override
@@ -101,16 +103,16 @@ public class MessageController {
 
             }
         };
-        mDatabase.child("message").child(user.toString()).addChildEventListener(childEventListener);
-        return message;
+        mDatabase.child("message").child(fromUUID).child(toUUID).addChildEventListener(childEventListener);
+        mDatabase.child("message").child(toUUID).child(fromUUID).addChildEventListener(childEventListener);
+
     }
 
     public void addToFile(Message message) {
 
     }
 
-    public static void getMessages(String toUUID, String fromUUID, final MessageAdapter messageAdapter) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+    public static void getMessages(final String toUUID, final String fromUUID, final MessageAdapter messageAdapter) {
         mDatabase.child("message").child(fromUUID).child(toUUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -120,8 +122,7 @@ public class MessageController {
                         Message message = child.getValue(Message.class);
                         messageList.add(message);
                     }
-                    messageAdapter.notifyDataSetChanged();
-                    Collections.sort(messageList);
+                    getMessagesReverse(toUUID, fromUUID, messageAdapter);
                 } catch(Exception e) {
                     Log.i("getMessagesException:", e.toString());
                 }
@@ -134,6 +135,30 @@ public class MessageController {
     }
 
 
+    public static void getMessagesReverse(String toUUID, String fromUUID, final MessageAdapter messageAdapter) {
+        mDatabase.child("message").child(toUUID).child(fromUUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                try {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Message message = child.getValue(Message.class);
+                        messageList.add(message);
+                    }
+                    Collections.sort(messageList);
+                    if(messageAdapter != null) {
+                        messageAdapter.notifyDataSetChanged();
+                    }
+                } catch(Exception e) {
+                    Log.i("getMessagesException:", e.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
     public static ArrayList<Message> getMessageList() {
         return messageList;
     }
@@ -142,8 +167,5 @@ public class MessageController {
         MessageController.messageList = messageList;
     }
 
-    public static void sortMessageList() {
-
-    }
 
 }

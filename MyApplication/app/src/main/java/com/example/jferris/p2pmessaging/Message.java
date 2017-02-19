@@ -6,22 +6,23 @@ import java.util.UUID;
 /**
  * Created by jferris on 08/02/17.
  * Object for storing message string, connected to users UUID
+ * Stores to uuid and from uuid
+ * Boolean to tell if read or not
+ * Date object to know when it was sent
+ * Implements comparable to sort by date
  */
 
 public class Message implements Comparable<Message> {
     private String message;
-//    private UUID uuid;
+    private String uuid;
     private Boolean isRead;
     private Date date;
     private String from;
     private String to;
-//    private static final int DIRECTION_INCOMING = 0;
-//    private static final int DIRECTION_OUTGOING = 1;
-//    private int direction;
 
-    public Message(String message, String to, String from) {
+    public Message(String message, String to, String from, String uuid) {
         this.message = message;
-//        this.uuid = uuid;
+        this.uuid = uuid;
         this.isRead = false;
         this.date = new Date();
         this.to = to;
@@ -38,15 +39,15 @@ public class Message implements Comparable<Message> {
         this.message = message;
     }
 
-//    public UUID getUuid() {
-//        return uuid;
-//    }
-//
-//    public void setUuid(UUID uuid) {
-//        this.uuid = uuid;
-//    }
+    public String getUuid() {
+        return uuid;
+    }
 
-    public Boolean getRead() {
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public Boolean isRead() {
         return isRead;
     }
 
@@ -61,15 +62,7 @@ public class Message implements Comparable<Message> {
     public void setDate(Date date) {
         this.date = date;
     }
-//
-//    public int getDirection() {
-//        return direction;
-//    }
-//
-//    public void setDirection(int direction) {
-//        this.direction = direction;
-//    }
-//
+
     public String getFrom() {
         return from;
     }

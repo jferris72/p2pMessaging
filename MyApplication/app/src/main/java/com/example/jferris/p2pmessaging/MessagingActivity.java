@@ -14,7 +14,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.R.id.message;
 
@@ -49,10 +56,7 @@ public class MessagingActivity extends Activity {
         } else {
             contactUUID = (String) savedInstanceState.getSerializable("user");
         }
-        messageAdapter = new MessageAdapter(this, MessageController.getMessageList());
-        MessageController.getMessages(contactUUID, UserController.getCurrentUser().getUuid(), messageAdapter);
-        MessageController.getMessages(UserController.getCurrentUser().getUuid(), contactUUID, messageAdapter);
-        messageList.setAdapter(messageAdapter);
+        //MessageController.getMessages(contactUUID, UserController.getCurrentUser().getUuid(), messageAdapter);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +68,8 @@ public class MessagingActivity extends Activity {
                 }
             }
         });
+        messageAdapter = new MessageAdapter(this, MessageController.getMessageList());
+        MessageController.receiveMessages(contactUUID, UserController.getCurrentUser().getUuid(), messageAdapter);
 
         contactName.setText(UserController.getCurrentUser().getName()); //TO DO
     }
@@ -72,7 +78,12 @@ public class MessagingActivity extends Activity {
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        messageAdapter.notifyDataSetChanged();
+        messageList.setAdapter(messageAdapter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
 }
