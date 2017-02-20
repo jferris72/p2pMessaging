@@ -130,9 +130,6 @@ public class MessagingActivity extends AppCompatActivity {
             final String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            ImageView imageView = (ImageView) findViewById(R.id.imageViewGallery);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
             StorageReference imageRef = storageRef.child(picturePath);
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
