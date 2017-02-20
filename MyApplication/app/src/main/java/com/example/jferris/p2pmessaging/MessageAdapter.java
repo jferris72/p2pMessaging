@@ -75,9 +75,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
                 readReceipt.setText("Sent");
             }
         }
-//        if (convertView == null) {
-//            convertView = LayoutInflater.from(getContext()).inflate(res, viewGroup, false);
-//        }
+
         if(currMessage.isImage()) {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();

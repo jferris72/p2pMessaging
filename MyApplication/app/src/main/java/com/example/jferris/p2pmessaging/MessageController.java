@@ -121,53 +121,6 @@ public class MessageController {
 
     }
 
-//    public static void getMessages(final String toUUID, final String fromUUID, final MessageAdapter messageAdapter) {
-//        mDatabase.child("message").child(fromUUID).child(toUUID).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                try {
-//                    messageList.clear();
-//                    for (DataSnapshot child : snapshot.getChildren()) {
-//                        Message message = child.getValue(Message.class);
-//                        messageList.add(message);
-//                    }
-//                    getMessagesReverse(toUUID, fromUUID, messageAdapter);
-//                } catch(Exception e) {
-//                    Log.i("getMessagesException:", e.toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        });
-//    }
-//
-//
-//    public static void getMessagesReverse(String toUUID, String fromUUID, final MessageAdapter messageAdapter) {
-//        mDatabase.child("message").child(toUUID).child(fromUUID).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                try {
-//                    for (DataSnapshot child : snapshot.getChildren()) {
-//                        Message message = child.getValue(Message.class);
-//                        messageList.add(message);
-//                    }
-//                    Collections.sort(messageList);
-//                    if(messageAdapter != null) {
-//                        messageAdapter.notifyDataSetChanged();
-//                    }
-//                } catch(Exception e) {
-//                    Log.i("getMessagesException:", e.toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        });
-//    }
-
     public static ArrayList<Message> getMessageList() {
         return messageList;
     }

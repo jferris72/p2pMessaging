@@ -73,7 +73,6 @@ public class MessagingActivity extends AppCompatActivity {
         } else {
             contactUUID = (String) savedInstanceState.getSerializable("user");
         }
-        //MessageController.getMessages(contactUUID, UserController.getCurrentUser().getUuid(), messageAdapter);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,15 +89,12 @@ public class MessagingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getPermission();
-//                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(i, 2);
             }
         });
 
         messageAdapter = new MessageAdapter(this, MessageController.getMessageList());
         MessageController.receiveMessages(contactUUID, UserController.getCurrentUser().getUuid(), messageAdapter);
 
-//        contactName.setText(UserController.getCurrentUser().getName()); //TO DO
     }
 
     @Override
@@ -113,9 +109,15 @@ public class MessagingActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    /**
+     * Takes result from gallery after image button pressed
+     * Sends image to storage on firebase and message to contact with image info
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
@@ -127,9 +129,7 @@ public class MessagingActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             final String picturePath = cursor.getString(columnIndex);
             cursor.close();
-            // String picturePath contains the path of selected Image
 
-            // Show the Selected Image on ImageView
             ImageView imageView = (ImageView) findViewById(R.id.imageViewGallery);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
@@ -143,13 +143,10 @@ public class MessagingActivity extends AppCompatActivity {
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-//                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
                     messageController.sendImage(picturePath, UserController.getCurrentUser().getUuid(), contactUUID);
                 }
             });
@@ -157,39 +154,31 @@ public class MessagingActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get permission to access images, taken from google android dev website
+     */
     protected void getPermission() {
         if (Build.VERSION.SDK_INT >= 23){
-            // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(MessagingActivity.this,
                     android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                // Should we show an explanation?
                 if (ActivityCompat.shouldShowRequestPermissionRationale(MessagingActivity.this,
                         android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-                    // Show an expanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
-
                 } else {
-
-                    // No explanation needed, we can request the permission.
 
                     ActivityCompat.requestPermissions(MessagingActivity.this,
                             new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
                             MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
 
-                    // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-                    // app-defined int constant. The callback method gets the
-                    // result of the request.
                 }
-            }else{
+            } else{
                 ActivityCompat.requestPermissions(MessagingActivity.this,
                         new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
             }
-        }else {
+        } else {
 
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
@@ -197,23 +186,24 @@ public class MessagingActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * On permission accepted go to pick a picture to send
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode ==MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
-            // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
             } else {
 
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
             }
             return;
         }
