@@ -12,14 +12,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by jferris on 11/02/17.
+ * Adapter to display current contacts
+ * Used in @ContactActivity
+ * Displays contact name and email
  */
 
 public class ContactAdapter extends ArrayAdapter<User> {
 
     private Context context;
     private ArrayList<User> contacts = new ArrayList<>();
-    private ContactController contactController;
 
 
     public ContactAdapter(Context context, ArrayList<User> contacts) {
@@ -39,23 +40,10 @@ public class ContactAdapter extends ArrayAdapter<User> {
         contactName.setText(contacts.get(position).getName());
         contactEmail.setText(contacts.get(position).getEmail());
 
-//        Button addContactButton = (Button) convertView.findViewById(R.id.addButton);
-//
-//        addContactButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                contactController.addById(contacts.get(position).getUuid());
-//            }
-//        });
-
         return convertView;
     }
 
     public ArrayList<User> getContacts() {
         return contacts;
-    }
-
-    public void setContacts(ArrayList<User> contacts) {
-        this.contacts = contacts;
     }
 }

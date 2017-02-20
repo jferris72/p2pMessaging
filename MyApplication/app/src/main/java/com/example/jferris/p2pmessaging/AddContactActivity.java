@@ -10,6 +10,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * Activity to add contacts
+ * User can search available users by pressing search button
+ * Will display list of matching users to add to contacts
+ */
 public class AddContactActivity extends AppCompatActivity {
     Button searchButton;
     EditText searchText;

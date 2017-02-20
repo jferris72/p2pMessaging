@@ -25,6 +25,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * Not used, should delete
+ */
 public class MainActivity extends Activity {
 
     private DatabaseReference mDatabase;

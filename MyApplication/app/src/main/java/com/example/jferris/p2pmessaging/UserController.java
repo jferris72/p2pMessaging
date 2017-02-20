@@ -1,6 +1,5 @@
 package com.example.jferris.p2pmessaging;
 
-import android.content.Intent;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -12,8 +11,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 /**
- * Created by jferris on 09/02/17.
  * Controls user data
+ * Has methods to create user on DB and get users from DB
+ * Contains reference to current logged in user
+ * Singleton, only one global controller for accessing current user across activities
  */
 
 public class UserController {

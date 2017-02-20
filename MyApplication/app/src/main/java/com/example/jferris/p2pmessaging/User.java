@@ -1,7 +1,10 @@
 package com.example.jferris.p2pmessaging;
 
 /**
- * Created by jferris on 08/02/17.
+ * User object, contains:
+ * String name of user
+ * String unique ID of user
+ * String email of user
  */
 
 public class User {

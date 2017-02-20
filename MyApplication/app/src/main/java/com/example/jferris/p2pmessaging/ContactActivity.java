@@ -12,10 +12,15 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * Displays users contacts
+ * User can click on a contact to begin messaging them @MessagingActivity
+ * Can press the search button to be directed to @AddContactActivity
+ */
+
 public class ContactActivity extends Activity {
     Button contactButton;
     ListView contactList;
-    EditText contactText;
     ContactController contactController;
     ContactAdapter contactAdapter;
 
@@ -29,10 +34,7 @@ public class ContactActivity extends Activity {
         contactAdapter = new ContactAdapter(this, contactController.getContacts());
         contactList.setAdapter(contactAdapter);
 
-
         contactButton = (Button) findViewById(R.id.contactButton);
-//        contactText = (EditText) findViewById(R.id.contactText);
-
         contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,11 +54,9 @@ public class ContactActivity extends Activity {
         // TODO Auto-generated method stub
         super.onStart();
         contactController.fillContacts(contactAdapter);
-
     }
 
     public class ContactClickHandler implements AdapterView.OnItemClickListener {
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(ContactActivity.this, MessagingActivity.class);

@@ -11,7 +11,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by jferris on 16/02/17.
+ * Adapter for showing contacts that the user can add
+ * Displays user name and email
+ * Has button to add contacts to user contact list
  */
 
 public class AddAdapter extends ArrayAdapter<User> {

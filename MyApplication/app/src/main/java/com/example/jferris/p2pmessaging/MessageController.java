@@ -46,22 +46,35 @@ public class MessageController {
 //    public MessageController() {}
 
     /**
-     *
+     * Send message to database to be received by contact
      * @param body
      * @param from
      * @param to
      */
     public void sendMessage(String body, String from, String to) {
-
         if (body == null || from == null || to == null) {
             return;
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         messageID = UUID.randomUUID();
-        Message message = new Message(body, to, from, messageID.toString());
+        Message message = new Message(body, to, from, messageID.toString(), false);
         mDatabase.child("message").child(from).child(to).child(messageID.toString()).setValue(message);
     }
 
+    public void sendImage(String imageLocation, String from, String to) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        messageID = UUID.randomUUID();
+        Message message = new Message(imageLocation, to, from, messageID.toString(), true);
+        mDatabase.child("message").child(from).child(to).child(messageID.toString()).setValue(message);
+    }
+
+    /**
+     * Receive messages, makes a listener to get old messages and listen for new ones
+     * Listens for changes to list to update read receipts
+     * @param toUUID
+     * @param fromUUID
+     * @param messageAdapter
+     */
     public static void receiveMessages(final String toUUID, final String fromUUID, final MessageAdapter messageAdapter) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         messageList.clear();
@@ -108,56 +121,52 @@ public class MessageController {
 
     }
 
-    public void addToFile(Message message) {
-
-    }
-
-    public static void getMessages(final String toUUID, final String fromUUID, final MessageAdapter messageAdapter) {
-        mDatabase.child("message").child(fromUUID).child(toUUID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                try {
-                    messageList.clear();
-                    for (DataSnapshot child : snapshot.getChildren()) {
-                        Message message = child.getValue(Message.class);
-                        messageList.add(message);
-                    }
-                    getMessagesReverse(toUUID, fromUUID, messageAdapter);
-                } catch(Exception e) {
-                    Log.i("getMessagesException:", e.toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
-
-
-    public static void getMessagesReverse(String toUUID, String fromUUID, final MessageAdapter messageAdapter) {
-        mDatabase.child("message").child(toUUID).child(fromUUID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                try {
-                    for (DataSnapshot child : snapshot.getChildren()) {
-                        Message message = child.getValue(Message.class);
-                        messageList.add(message);
-                    }
-                    Collections.sort(messageList);
-                    if(messageAdapter != null) {
-                        messageAdapter.notifyDataSetChanged();
-                    }
-                } catch(Exception e) {
-                    Log.i("getMessagesException:", e.toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
+//    public static void getMessages(final String toUUID, final String fromUUID, final MessageAdapter messageAdapter) {
+//        mDatabase.child("message").child(fromUUID).child(toUUID).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                try {
+//                    messageList.clear();
+//                    for (DataSnapshot child : snapshot.getChildren()) {
+//                        Message message = child.getValue(Message.class);
+//                        messageList.add(message);
+//                    }
+//                    getMessagesReverse(toUUID, fromUUID, messageAdapter);
+//                } catch(Exception e) {
+//                    Log.i("getMessagesException:", e.toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+//    }
+//
+//
+//    public static void getMessagesReverse(String toUUID, String fromUUID, final MessageAdapter messageAdapter) {
+//        mDatabase.child("message").child(toUUID).child(fromUUID).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                try {
+//                    for (DataSnapshot child : snapshot.getChildren()) {
+//                        Message message = child.getValue(Message.class);
+//                        messageList.add(message);
+//                    }
+//                    Collections.sort(messageList);
+//                    if(messageAdapter != null) {
+//                        messageAdapter.notifyDataSetChanged();
+//                    }
+//                } catch(Exception e) {
+//                    Log.i("getMessagesException:", e.toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+//    }
 
     public static ArrayList<Message> getMessageList() {
         return messageList;

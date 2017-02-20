@@ -11,7 +11,8 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 
 /**
- * Created by jferris on 11/02/17.
+ * Controller for contacts
+ * Has methods to fill, add and search contacts
  */
 
 public class ContactController {
@@ -38,11 +39,11 @@ public class ContactController {
         this.contacts = contacts;
     }
 
-    public void addContact(User contact) {
-        //mDatabase.child("contact").child(UserController.getCurrentUser().getUuid()).setValue(contact);
-        contacts.add(contact);
-    }
-
+    /**
+     * Gets all users contacts from database and adds them to contacts ArrayList
+     * First clears list then fills
+     * @param contactAdapter
+     */
     public void fillContacts(final ContactAdapter contactAdapter) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -60,12 +61,16 @@ public class ContactController {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
+                //Failed to fill
             }
         });
 
     }
 
+    /**
+     * Adds a contact by users UUID
+     * @param contact
+     */
     public void addById(String contact) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -84,20 +89,26 @@ public class ContactController {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
+                //failed to add
             }
         });
 
     }
 
+    /**
+     * Searches users using a string keyword
+     * Returns all those that match the keyword
+     * @param keyword
+     * @return
+     */
     public ArrayList<User> searchContacts(String keyword) {
         ArrayList<User> users;
         ArrayList<User> matchedUsers;
         String lowerCaseName;
         keyword = keyword.toLowerCase();
         Pattern p;
-        User user;
         matchedUsers = new ArrayList<>();
+
         try {
             users = UserController.getUsers();
             p = Pattern.compile(keyword);

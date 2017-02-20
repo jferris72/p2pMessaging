@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by jferris on 08/02/17.
  * Object for storing message string, connected to users UUID
  * Stores to uuid and from uuid
  * Boolean to tell if read or not
@@ -19,14 +18,16 @@ public class Message implements Comparable<Message> {
     private Date date;
     private String from;
     private String to;
+    private Boolean isImage;
 
-    public Message(String message, String to, String from, String uuid) {
+    public Message(String message, String to, String from, String uuid, Boolean isImage) {
         this.message = message;
         this.uuid = uuid;
         this.isRead = false;
         this.date = new Date();
         this.to = to;
         this.from = from;
+        this.isImage = isImage;
     }
 
     public Message() {}
@@ -82,5 +83,13 @@ public class Message implements Comparable<Message> {
     @Override
     public int compareTo(Message o) {
         return getDate().compareTo(o.getDate());
+    }
+
+    public Boolean isImage() {
+        return isImage;
+    }
+
+    public void setImage(Boolean image) {
+        isImage = image;
     }
 }
